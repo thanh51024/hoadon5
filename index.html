@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tạo Biên Lai Học Phí</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Các kiểu chung cho form và hóa đơn */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+      }
+      .card {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        max-width: 600px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      /* Nút tăng/giảm: đặt dưới ô nhập số tiền */
+      .button-group {
+        margin-top: 5px;
+        display: flex;
+        gap: 10px;
+      }
+      button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      button.small-button {
+        height: 40px;
+        padding: 0 10px;
+        font-size: 14px;
+      }
+      .invoice-header,
+      .invoice-details,
+      .student-info,
+      .payment-info,
+      .attendance-table,
+      .qr-section,
+      .invoice-footer {
+        margin-bottom: 15px;
+      }
+      .invoice-header h1 {
+        text-align: center;
+        margin-bottom: 5px;
+      }
+      .invoice-header p {
+        text-align: center;
+        font-style: italic;
+        margin: 2px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      table th,
+      table td {
+        padding: 8px;
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+      .qr-section {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .qr-section img {
+        width: 100px;
+        height: 100px;
+      }
+      .button-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .invoice-footer {
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Form nhập liệu -->
+    <div class="card" id="formContainer">
+      <h2>Nhập Thông Tin Học Phí</h2>
+      <!-- Nhập liệu từ Excel: Họ tên và Ngày học -->
+      <div class="form-group">
+        <label for="excelData"
+          >Họ tên - Ngày học (1 dòng, cách nhau bằng tab hoặc dấu " ", nhập từ
+          excel, k là không phép, X(...) là ngày đóng tiền):</label
+        >
+        <textarea
+          id="excelData"
+          rows="2"
+          placeholder="VD: Nguyễn Văn A	4/12	9/12	11/12	k16/12	18/12	22/12	23/12	24/12 X(17/1)"
+        ></textarea>
+      </div>
+      <!-- Lớp -->
+      <div class="form-group">
+        <label for="className">Lớp:</label>
+        <input type="text" id="className" placeholder="Nhập lớp" />
+      </div>
+      <!-- Số tiền -->
+      <div class="form-group amount-group">
+        <label for="amount">Số tiền (VNĐ):</label>
+        <input type="number" id="amount" value="500000" />
+        <button id="increaseAmount" class="small-button">+50K</button>
+        <button id="decreaseAmount" class="small-button">-50K</button>
+      </div>
+
+      <div class="form-group">
+        <button id="generateReceipt">Tạo Biên Lai</button>
+      </div>
+    </div>
+
+    <!-- Container hiển thị hóa đơn (ban đầu ẩn) -->
+    <div class="card" id="invoiceContainer" style="display: none">
+      <div id="receipt">
+        <!-- Nội dung hóa đơn sẽ được tạo động qua JavaScript -->
+      </div>
+      <div class="button-container">
+        <button id="downloadButton" class="button">Tải Biên Lai</button>
+        <button id="resetButton" class="button">Biên Lai Mới</button>
+      </div>
+    </div>
+
+    <!-- Thư viện hỗ trợ tải ảnh hóa đơn -->
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.10.5/dist/html-to-image.min.js"></script>
+    <script src="https://unpkg.com/downloadjs"></script>
+    <!-- Import thư viện html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Liên kết file script.js -->
+    <script src="script.js"></script>
+  </body>
+</html>

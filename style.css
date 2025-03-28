@@ -1,0 +1,133 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+  }
+  .card {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  /* Các nút tăng/giảm nằm ngang */
+  .flex-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .flex-group button.small-button {
+    height: 40px;
+    padding: 0 10px; /* Padding ngang */
+  }
+  
+  button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  button.small-button {
+    padding: 6px 10px;
+    font-size: 0.9em;
+  }
+  
+  /* Nhóm số tiền và các nút trên cùng một dòng */
+  .amount-group {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+  }
+  
+  /* Điều chỉnh kích thước các nút */
+  .small-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Hóa đơn */
+  #receipt {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 560px; /* Cố định bề ngang */
+    min-height: 900px; /* Tránh bị thu hẹp chiều dọc */
+    overflow: hidden; /* Ẩn hoàn toàn thanh cuộn */
+    display: block; /* Đảm bảo không bị co lại do flex/grid */
+  }
+  
+  .invoice-header,
+  .invoice-details,
+  .student-info,
+  .payment-info,
+  .attendance-table,
+  .qr-section,
+  .invoice-footer {
+    margin-bottom: 5px;
+  }
+  .qr-section {
+    margin-bottom: 0px;
+  }
+  .invoice-header h1 {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  .invoice-header p {
+    text-align: center;
+    font-style: italic;
+    margin: 2px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  table th,
+  table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  .qr-section {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .qr-section img {
+    width: 100px;
+    height: 100px;
+  }
+  .button-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .invoice-footer {
+    text-align: center;
+    font-weight: bold;
+  }
+  
