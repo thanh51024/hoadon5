@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let validDates = [];
       let paymentDate = "";
       let isPaid = false;
-      const currentYear = new Date().getFullYear();
+      //const currentYear = new Date().getFullYear();
   
       if (!excelData || !className || !amount) {
         alert("⚠️ Vui lòng nhập đầy đủ thông tin!");
@@ -60,43 +60,51 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
   
-      for (let i = 0; i < parts.length; i++) {
-        const match = parts[i].match(/x\((\d{1,2}\/\d{1,2})\)/i);
-        if (match) {
-          isPaid = true;
-          paymentDate = match[1]; // Lấy phần ngày tháng trong dấu ()
-          break;
-        }
-  
-        const hasK = parts[i].startsWith("k");
-        const tokens = parts[i].replace("k", "").split("/");
-        if (tokens.length === 2) {
-          const day = parseInt(tokens[0], 10);
-          const month = parseInt(tokens[1], 10);
-          let year = currentYear;
-  
-          // Nếu ngày tháng nhập vào lớn hơn ngày tháng hiện tại, gán năm là năm trước
-          const currentDate = new Date();
+     //const invoiceType = document.querySelector('input[name="invoiceType"]:checked').value;
+   const invoiceRadio = document.querySelector('input[name="invoiceType"]:checked');
+   const invoiceType = invoiceRadio ? invoiceRadio.value : "past"; // Mặc định là quá khứ
+   
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].toLowerCase().includes("đóng")) {
+        isPaid = true;
+        paymentDate = parts[i + 1] || "";
+        break;
+      }
+
+      const hasK = parts[i].startsWith("k");
+      const tokens = parts[i].replace("k", "").split("/");
+
+      if (tokens.length === 2) {
+        const day = parseInt(tokens[0], 10);
+        const month = parseInt(tokens[1], 10);
+        let year = currentYear;
+
+        if (invoiceType === "past") {
+          // Nếu chọn quá khứ: giữ logic cũ
           if (
             month > currentDate.getMonth() + 1 ||
             (month === currentDate.getMonth() + 1 && day > currentDate.getDate())
           ) {
             year = currentYear - 1;
           }
-  
-          if (isValidDate(day, month, year)) {
-            validDates.push({
-              date: `${tokens[0].padStart(2, "0")}/${tokens[1].padStart(
-                2,
-                "0"
-              )}/${year}`,
-              status: hasK ? "Nghỉ không phép" : "Có học",
-            });
-          }
-        } else {
-          studentName += (studentName ? " " : "") + parts[i];
+        } else if (invoiceType === "future") {
+          // Nếu chọn tương lai: luôn dùng năm hiện tại
+          year = currentYear;
         }
+
+        if (isValidDate(day, month, year)) {
+          validDates.push({
+            date: `${tokens[0].padStart(2, "0")}/${tokens[1].padStart(2, "0")}/${year}`,
+            status: hasK ? "Nghỉ không phép" : "Có học",
+          });
+        }
+      } else {
+        studentName += (studentName ? " " : "") + parts[i];
       }
+    }
   
       validDates.sort(
         (a, b) =>
