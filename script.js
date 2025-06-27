@@ -50,13 +50,13 @@ document.addEventListener("DOMContentLoaded", function () {
       //const currentYear = new Date().getFullYear();
   
       if (!excelData || !className || !amount) {
-        alert("⚠️ Vui lòng nhập đầy đủ thông tin!");
+        alert("Vui lòng nhập đầy đủ thông tin!");
         return;
       }
   
       const parts = excelData.split(/\t+|\s+/).filter(Boolean);
       if (parts.length < 2 || !/[a-zA-Z]/.test(parts[0])) {
-        alert("❌ Dữ liệu từ Excel không hợp lệ.");
+        alert("Dữ liệu từ Excel không hợp lệ.");
         return;
       }
   
@@ -81,9 +81,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const day = parseInt(tokens[0], 10);
         const month = parseInt(tokens[1], 10);
         let year = currentYear;
+        const currentMonth = currentDate.getMonth() + 1;
 
+        const now = new Date();
+        const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+
+        // Kiểm tra ngày tháng năm hợp lệ
         if (invoiceType === "past") {
-          // Nếu chọn quá khứ: giữ logic cũ
           if (
             month > currentDate.getMonth() + 1 ||
             (month === currentDate.getMonth() + 1 && day > currentDate.getDate())
@@ -91,14 +95,28 @@ document.addEventListener("DOMContentLoaded", function () {
             year = currentYear - 1;
           }
         } else if (invoiceType === "future") {
-          // Nếu chọn tương lai: luôn dùng năm hiện tại
           year = currentYear;
+
+          // Nếu đang ở cuối năm mà nhập tháng đầu năm → hóa đơn năm sau
+          if (currentMonth >= 10 && month <= 3) {
+            year = currentYear + 1;
+          }
         }
 
+        // Kiểm tra và xác định trạng thái
         if (isValidDate(day, month, year)) {
+          const inputDate = new Date(year, month - 1, day);
+          let status = "Có học";
+
+          if (invoiceType === "future" && inputDate > today) {
+            status = "Dự kiến";              
+          } else if (hasK) {
+            status = "Nghỉ không phép";       
+          }
+
           validDates.push({
             date: `${tokens[0].padStart(2, "0")}/${tokens[1].padStart(2, "0")}/${year}`,
-            status: hasK ? "Nghỉ không phép" : "Có học",
+            status: status,
           });
         }
       } else {
