@@ -70,7 +70,13 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < parts.length; i++) {
       if (parts[i].toLowerCase().includes("x")) {
         isPaid = true;
-        paymentDate = parts[i + 1] || "";
+         // Tìm ngày trong dấu ngoặc: X(17/1)
+        const match = parts[i].match(/\(([^)]+)\)/);
+        if (match) {
+          paymentDate = match[1];  // lấy "17/1"
+        } else {
+          paymentDate = ""; // không tìm thấy gì
+        }
         break;
       }
 
