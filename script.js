@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentYear = currentDate.getFullYear();
 
     for (let i = 0; i < parts.length; i++) {
-      if (parts[i].toLowerCase().includes("đóng")) {
+      if (parts[i].toLowerCase().includes("x")) {
         isPaid = true;
         paymentDate = parts[i + 1] || "";
         break;
