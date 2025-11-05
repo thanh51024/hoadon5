@@ -68,7 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentYear = currentDate.getFullYear();
 
     for (let i = 0; i < parts.length; i++) {
-      if (parts[i].toLowerCase().includes("x")) {
+      // Tìm kí tự x đứng 1 mình hoặc x(...)
+      if (/^x(\(.*\))?$/i.test(parts[i])) {
         isPaid = true;
          // Tìm ngày trong dấu ngoặc: X(17/1)
         const match = parts[i].match(/\(([^)]+)\)/);
